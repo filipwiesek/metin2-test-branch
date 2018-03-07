@@ -12,16 +12,19 @@ class CItemShop
          CItemShop(LPCHARACTER owner);
         ~CItemShop();
 
+        void LoadCategory(TItemShopCategory* pCategory, DWORD dwSize);
         void LoadItem(TPlayerItem* pItems, DWORD dwSize);
         void OpenItemShop(LPCHARACTER ch);
 
     private:
         void __ClientPacket(BYTE subheader, const void* c_pData, size_t size, LPCHARACTER ch);
+        TPlayerItem* __GetItem(BYTE bCategory, WORD wPos);
+        TItemShopCategory* __GetCategory(BYTE bCategory);
 
         bool m_bItemLoaded,
         bool m_bCategoryLoaded,
-        TPlayerItem*			m_pkItems[ITEMSHOP_MAX_NUM];
-	    TItemShopCategory*		m_bCategories[ITEMSHOP_CATEGORY_MAX_NUM];
+        TItemShopItem*			m_pkItems[ITEMSHOP_CATEGORY_MAX_NUM][ITEMSHOP_MAX_NUM];
+	    TItemShopCategory*		m_pkCategories[ITEMSHOP_CATEGORY_MAX_NUM];
 	    LPCHARACTER owner
 
 
