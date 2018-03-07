@@ -270,6 +270,9 @@ CPacketInfoGG::CPacketInfoGG()
 	Set(HEADER_GG_MONARCH_TRANSFER,		sizeof(TPacketMonarchGGTransfer),	"MonarchTransfer", false);
 	Set(HEADER_GG_PCBANG_UPDATE,		sizeof(TPacketPCBangUpdate),		"PCBangUpdate",		false);
 	Set(HEADER_GG_CHECK_AWAKENESS,		sizeof(TPacketGGCheckAwakeness),	"CheckAwakeness",		false);
+#ifdef __ITEM_SHOP__
+    Set(HAEDER_GC_ITEMSHOP,			sizeof(TPacketGCItemShop),			"ItemShop",		false);
+#endif
 }
 
 CPacketInfoGG::~CPacketInfoGG()
