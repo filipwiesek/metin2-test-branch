@@ -19,8 +19,9 @@ class CItemShop
         void __ClientPacket(BYTE subheader, const void* c_pData, size_t size, LPCHARACTER ch);
 
         bool m_bItemLoaded,
+        bool m_bCategoryLoaded,
         TPlayerItem*			m_pkItems[ITEMSHOP_MAX_NUM];
-	    BYTE					m_bItemGrid[ITEMSHOP_MAX_NUM];
+	    TItemShopCategory*		m_bCategories[ITEMSHOP_CATEGORY_MAX_NUM];
 	    LPCHARACTER owner
 
 

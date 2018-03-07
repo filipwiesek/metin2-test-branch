@@ -12,10 +12,10 @@
 #include "config.h"
 #include "buffer_manager.h"
 
-CItemShop::CItemShop(LPCHARACTER owner) : m_bItemLoaded(false), m_pkOwner(owner)
+CItemShop::CItemShop(LPCHARACTER owner) : m_bItemLoaded(false), m_bCategoryLoaded(false), m_pkOwner(owner)
 {
 	memset(m_pkItems, 0, sizeof(m_pkItems));
-	memset(m_bItemGrid, 0, sizeof(m_bItemGrid));
+	memset(m_bCategories, 0, sizeof(m_bCategories));
 }
 
 CItemShop::~CItemShop()
@@ -36,7 +36,6 @@ void CItemShop::LoadItem(TPlayerItem* pItems, DWORD dwSize)
 		return;
 
 	memset(m_pkItems, 0, sizeof(m_pkItems));
-	memset(m_bItemGrid, 0, sizeof(m_bItemGrid));
 	for (int i = 0; i < dwSize; ++i)
 	{
 		const TItemTable* pProto = ITEM_MANAGER::instance().GetTable(pItems[i].vnum);
@@ -47,11 +46,22 @@ void CItemShop::LoadItem(TPlayerItem* pItems, DWORD dwSize)
 		}
 
 		m_pkItems[pItems[i].pos] = new TPlayerItem(pItems[i]);
-		for (int iSize = 0; iSize < pProto->bSize; ++iSize)
-			m_bItemGrid[pItems[i].pos + GUILD_SAFEBOX_ITEM_WIDTH * iSize] = 1;
 	}
 
 	m_bItemLoaded = true;
+}
+
+void CItemShop::LoadCategory(TItemShopCategory* pCategory, DWORD dwSize)
+{
+    if (m_bCategoryLoaded)
+        return;
+
+    memset(m_bCategories, 0, sizeof(m_bCategories));
+
+    for (int i=0; i < dwSize; i++)
+    {
+        m_bCategories[pCategory[i].category] = new
+    }
 }
 
 void CItemShop::OpenItemShop(LPCHARACTER ch)
@@ -71,8 +81,6 @@ void CItemShop::OpenItemShop(LPCHARACTER ch)
 		return;
 	}
 
-	__ClientPacket(IS_SUB_HEADER_OPEN, &m_bSize, sizeof(BYTE), ch);
-
 	for (int i = 0; i < ITEMSHOP_MAX_NUM; ++i)
 	{
 		if (TPlayerItem* pkItem = __GetItem(i))
@@ -85,9 +93,12 @@ void CItemShop::OpenItemShop(LPCHARACTER ch)
 			thecore_memcpy(item.sockets, pkItem->alSockets, sizeof(item.sockets));
 			thecore_memcpy(item.attr, pkItem->aAttr, sizeof(item.attr));
 
-			__ClientPacket(GUILD_SAFEBOX_SUBHEADER_SET_ITEM, &item, sizeof(SPacketGCItemShop), ch);
+			__ClientPacket(IS_SUB_HEADER_ITEM, &item, sizeof(SPacketGCItemShop), ch);
 		}
 	}
+
+	__ClientPacket(IS_SUB_HEADER_OPEN, &m_bSize, sizeof(BYTE), ch);
+
 }
 void CItemShop::__ClientPacket(BYTE subheader, const void* c_pData, size_t size, LPCHARACTER ch)
 {

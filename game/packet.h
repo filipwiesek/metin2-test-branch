@@ -2418,7 +2418,7 @@ typedef struct item_shop_item
 	TPlayerItemAttribute	attr[ITEM_ATTRIBUTE_MAX_NUM];
 } TItemShopItem;
 
-typedef struct item_shop_item
+typedef struct item_shop_category
 {
 	BYTE	category;
 	char	szCategoryName[ITEMSHOP_CATEGORY_NAME_MAX_NUM+1];
