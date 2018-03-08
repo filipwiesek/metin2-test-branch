@@ -14,7 +14,7 @@ class CItemShop
 
         void LoadCategory(TItemShopCategory* pCategory, DWORD dwSize);
         void LoadItem(TPlayerItem* pItems, DWORD dwSize);
-        void OpenItemShop(LPCHARACTER ch);
+        void OpenItemShop();
 
     private:
         void __ClientPacket(BYTE subheader, const void* c_pData, size_t size, LPCHARACTER ch);

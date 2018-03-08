@@ -77,12 +77,12 @@ void CItemShop::LoadItem(TItemShopItem* pItems, DWORD dwSize)
 	m_bItemLoaded = true;
 }
 
-void CItemShop::OpenItemShop(LPCHARACTER ch)
+void CItemShop::OpenItemShop()
 {
 
-	if (m_pkOwner == NULL || ch == NULL)
+	if (m_pkOwner == NULL)
 	{
-		sys_err("cannot open itemshop for player [%d] %s", ch->GetPlayerID(), ch->GetName());
+		sys_err("cannot open itemshop for player [%d] %s", m_pkOwner->GetPlayerID(), m_pkOwner->GetName());
 		return;
 	}
 

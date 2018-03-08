@@ -2423,6 +2423,24 @@ typedef struct item_shop_category
 	BYTE	category;
 	char	szCategoryName[ITEMSHOP_CATEGORY_NAME_MAX_NUM+1];
 } TItemShopCategory;
+
+enum EPacketCGItemShopSubHeaderType
+{
+	IS_SUB_HEADER_BUY,
+	IS_SUB_HEADER_ADD_ITEM,
+	IS_SUB_HEADER_EDIT_ITEM,
+	IS_SUB_HEADER_ADD_CATEGORY,
+	IS_SUB_HEADER_EDIT_CATEGORY,
+	IS_SUB_HEADER_ADD_DISCOUNT,
+	IS_SUB_HEADER_EDIT_DISCOUNT,
+};
+
+typedef struct SPacketCGItemShop
+{
+	BYTE	header;
+	WORD	size;
+	BYTE	subheader;
+} TPacketCGItemShop;
 #endif
 #pragma pack()
 #endif
